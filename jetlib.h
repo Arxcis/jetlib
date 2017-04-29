@@ -109,4 +109,20 @@ namespace jet
             ycomponent
         };
     }
+
+  //
+  // @function 
+  //  Recursive pow function which can be inlined and constexpressed
+  //  @speed - Could be faster if repeated squaring is implemented
+  //           Does only have anything to say for compile time speed,
+  //            which is not important for this task
+  //
+  inline constexpr uint64_t 
+  pow(const uint64_t base, const int exponent)  
+  {
+    if (exponent == 0) 
+        return 1;
+    else               
+        return (base * pow(base, exponent-1));
+  }
 }

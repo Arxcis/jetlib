@@ -1,37 +1,75 @@
+//
+// @file jetlib.h
+// @brief original library created 29.04.17 by Jonas
+//
+
 #pragma once
 
 #include <cmath>
 #include <cstdint>
 #include <string>
+#include <iostream>
 
+// 
+// Declarations
+// 
+namespace jet 
+{
+    template<typename T> int8_t sign(T value);
+    template<typename T> T      radian(T grad); 
+    template<typename T> T      grad  (T rad);
+    template<template<typename> class Vector, typename T> void    printVector(Vector<T> vec, std::string msg="");
+    template<template<typename> class Vector, typename T> T         cross    (Vector<T> a, Vector<T> b);
+    template<template<typename> class Vector, typename T> T         dot      (Vector<T> a, Vector<T> b);
+    template<template<typename> class Vector, typename T> T         length   (Vector<T> a);
+    template<template<typename> class Vector, typename T> Vector<T> normalize(Vector<T> a);
+    template<template<typename> class Vector, typename T> float     angle    (Vector<T> a, Vector<T> b);
+
+    template<typename T> T lerp        (T a, T b, T t);
+    template<typename T> T cosineLerp  (T a, T b, T t);
+    template<typename T> T smoothStep  (T a, T b, T t);
+    template<typename T> T smootherStep(T a, T b, T t);
+
+    template<typename T> T min(T a, T b);
+    template<typename T> T max(T a, T b);
+
+    template<template<typename> class Vector, typename T> Vector<T> computeLaunchSpeedVector(Vector<T> top);
+    inline constexpr uint64_t pow(const uint64_t base, const int exponent);
+}
+
+// 
+// Definitions
+// 
 namespace jet 
 {
     const double incrediblySmall = 0.00001F;
+    const double PI = 3.14159;
     
     template<typename T>
-    int8_t 
-    sign(T value)
+    int8_t sign(T value)
     {   
         return ((value > (0.0 - jet::incrediblySmall)) ? 1 : -1);
     }
 
     template<typename T>
-    inline T 
-    radian(T deg) 
-    {    return (deg / 180.0) * PI;    }
+    inline T radian(T deg) 
+    {    
+        return (deg / 180.0) * PI;    
+    }
 
     template<typename T>
-    inline T 
-    grad(T rad)
-    {     return (rad / PI) * 180.0F;  }
+    inline T grad(T rad)
+    {     
+        return (rad / PI) * 180.0F;  
+    }
 
     //
     // Vector procedures
     //
-     template<template<typename> class Vector, typename T>
-    inline void printVector(Vector<T> vec, std::string msg="")
+    template<template<typename> class Vector, typename T>
+    inline void printVector(Vector<T> vec, std::string msg)
     {   
-        printf("%s   X:%.3f   Y:%.3f\n", msg.c_str(), vec.x, vec.y);
+        std::cout << msg << "   x: " << vec.x << "   y: " << vec.y << std::endl;
     }
 
     template<template<typename> class Vector, typename T>
@@ -71,17 +109,34 @@ namespace jet
         return acos(dotProduct);
     } 
 
+    //
+    // @Lerp procedures
+    //
     template<typename T>
-    inline T lerp(T a, T b, T weight) 
+    inline T lerp(T a, T b, T t) 
     {
-        return (((1.0 - weight) * a) + weight * b);
+        return (((1.0f - t) * a) + t * b);
     }
 
     template<typename T>
     inline T cosineLerp(T a, T b, T t) 
     {
-        T cost = (1 - cos(t * PI )) * 0.5;
-        return ((1.0 - cost) * a) + cost * b;
+        T cost = (1.0f - cos(t * PI )) * 0.5f;
+        return ((1.0f - cost) * a) + cost * b;
+    }
+
+    template<typename T>
+    inline T smoothStep(T a, T b, T t) 
+    {
+      t = t*t * (3.0f - 2.0f*t);
+      return (((1.0f - t) * a) + t * b);
+    }
+
+    template<typename T>
+    inline T smootherStep(T a, T b, T t)
+    {
+        t = t*t*t * (t * (6.0f * t - 15.0f) + 10.0f);
+        return (((1.0f - t) * a) + t * b);
     }
 
     template<typename T>
@@ -89,9 +144,16 @@ namespace jet
     {
         return (b < a) ? b : a;
     }
+
+    template<typename T>
+    inline T max(T a, T b)
+    {
+        return (b > a) ? b : a;
+    }
     
     template<template<typename> class Vector, typename T>
-    Vector<T> computeLaunchSpeedVector(Vector<T> top){
+    Vector<T> computeLaunchSpeedVector(Vector<T> top)
+    {
         const T gravity = 10.0F;
         const T ycomponent = std::sqrt(2 * top.y * gravity);
         return { 
@@ -110,9 +172,6 @@ namespace jet
   inline constexpr uint64_t 
   pow(const uint64_t base, const int exponent)  
   {
-    if (exponent == 0) 
-        return 1;
-    else               
-        return (base * pow(base, exponent-1));
+      return (exponent == 0) ? 1 : (base * pow(base, exponent-1));
   }
 }

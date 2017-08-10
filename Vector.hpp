@@ -1,8 +1,7 @@
-//
-// @file jetlib.h
-// @brief original library created 29.04.17 by Jonas
-//
-
+// @file vector.h
+// @date 29.04.17
+// @creator Jonas J. Solsvik
+// @brief Regex validate string types
 #pragma once
 
 #include <cmath>
@@ -10,14 +9,13 @@
 #include <string>
 #include <iostream>
 
+#include "math.h";
 // 
 // Declarations
 // 
 namespace jet 
 {
-    template<typename T> int8_t sign(T value);
-    template<typename T> T      radian(T grad); 
-    template<typename T> T      grad  (T rad);
+
     template<template<typename> class Vector, typename T> void    printVector(Vector<T> vec, std::string msg="");
     template<template<typename> class Vector, typename T> T         cross    (Vector<T> a, Vector<T> b);
     template<template<typename> class Vector, typename T> T         dot      (Vector<T> a, Vector<T> b);
@@ -42,26 +40,7 @@ namespace jet
 // 
 namespace jet 
 {
-    const double incrediblySmall = 0.00001F;
-    const double PI = 3.14159;
-    
-    template<typename T>
-    int8_t sign(T value)
-    {   
-        return ((value > (0.0 - jet::incrediblySmall)) ? 1 : -1);
-    }
 
-    template<typename T>
-    inline T radian(T deg) 
-    {    
-        return (deg / 180.0) * PI;    
-    }
-
-    template<typename T>
-    inline T grad(T rad)
-    {     
-        return (rad / PI) * 180.0F;  
-    }
 
     //
     // Vector procedures

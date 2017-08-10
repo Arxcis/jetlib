@@ -3,6 +3,7 @@
 // @brief extension of the library added 03.05.17 by Jonas
 //
 #pragma once
+
 #include <random>
 #include <vector>
 #include <cassert>
@@ -30,7 +31,7 @@ struct NoiseGrid
 // @function randomize3
 //  @brief fills the grid with random values.
 //
-void randomize(NoiseGrid& grid) 
+inline void randomize(NoiseGrid& grid) 
 {   
     grid.seed = grid.rd();
     std::mt19937 generator{ grid.seed };
@@ -45,13 +46,13 @@ void randomize(NoiseGrid& grid)
     }  
 }
 
-void init(NoiseGrid& grid){  randomize(grid); }
+inline void init(NoiseGrid& grid){  randomize(grid); }
 
 //
 // @function noise
 //  @brief An implementation of 2-dimensional perlin noise.
 //
-float noise(const NoiseGrid& grid, const sf::Vector2f unscaledPosition)
+inline float noise(const NoiseGrid& grid, const sf::Vector2f unscaledPosition)
 {    
     assert(unscaledPosition.x < grid.maxValue && unscaledPosition.y < grid.maxValue);
     // 0. Scale down input to fit the grid
@@ -88,7 +89,7 @@ float noise(const NoiseGrid& grid, const sf::Vector2f unscaledPosition)
 // @function noise 1d
 //  @brief simplified implementation for 1 dimensions
 //
-float noise(const NoiseGrid& grid, const float offset)
+inline float noise(const NoiseGrid& grid, const float offset)
 {
     assert(offset < (grid.columns * grid.maxValue));
 

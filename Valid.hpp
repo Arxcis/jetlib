@@ -70,12 +70,9 @@ namespace jet { namespace Valid {
     // @brief - regexEmail validates to true if:
     //     1. Minimum of 3 aplha-numeric character or _, -, . jonas.solsvik
     //     2. Mandatory @
-    //     3. Minimum of 3 aplha-numeric character or .   ex. stud.ntnu
-    //     4. Mandatory . 
-    //     5. Betwenn 2-6 lowercase alpha-letters.    ex. com or no
     // @robustness - pseudo email address.
     //
-    const std::regex regexEmail(R"(^([\s]*)([\da-zA-Z_\.]*)([@])([a-zA-Z\.]*)([\s]*)$)");  
+    const std::regex regexEmail(R"(^([\s]*)([\da-zA-Z_\.]*)([@])([a-zA-Z]*)(([\.][a-zA-Z]+)+)([\s]*)$)");  
         
     inline bool isEmail(std::string value)
     {

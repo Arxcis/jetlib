@@ -109,6 +109,7 @@ namespace Test
             email = "jonas.solsvik@gmail.com";
             OK |= Valid::isEmail(email) ? Flag::THREE : 0b0;
 
+
             if ((OK & activeFlags) == activeFlags) 
             {
                 printf("\nTEST: Emails OK..");

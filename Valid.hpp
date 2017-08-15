@@ -75,9 +75,7 @@ namespace jet { namespace Valid {
     //     5. Betwenn 2-6 lowercase alpha-letters.    ex. com or no
     // @robustness - pseudo email address.
     //
-    const std::regex regexEmail(R"((([\d[:alpha:]_\.])*)
-                                    ([@])
-                                    ([\d[:alpha:]_\.])*)");  
+    const std::regex regexEmail(R"(^([\s]*)([\da-zA-Z_\.]*)([@])([a-zA-Z\.]*)([\s]*)$)");  
         
     inline bool isEmail(std::string value)
     {

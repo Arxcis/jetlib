@@ -6,6 +6,7 @@
 
 #pragma once
 #include <regex>
+#include <string>
 
 // @urldoc - tool for creating/validating regex - www.rubular.com
 
@@ -16,7 +17,7 @@ namespace jet { namespace Valid {
     //
     constexpr std::regex regexName(R"([#[:alpha:] \.]+)");
     
-    inline bool isName(const char* value)
+    inline bool isName(std::string value)
     { 
         return std::regex_match(value, regName);
     }
@@ -29,7 +30,7 @@ namespace jet { namespace Valid {
     //
     constexpr std::regex regexChar3(R"([A-Z]{3})");
 
-    inline bool isChar3(const char* value)
+    inline bool isChar3(std::string value)
     {
         return std::regex_match(value, regChar3);
     }
@@ -40,7 +41,7 @@ namespace jet { namespace Valid {
     //
     constexpr std::regex regexInt(R"(([-]?)([0-9])+)");
     
-    inline bool isInt(const char* value)
+    inline bool isInt(std::string value)
     {
         return std::regex_match(value, regInt);
     }
@@ -57,7 +58,7 @@ namespace jet { namespace Valid {
                                      ([0-9]{0,15})
                                      ([\.]?)([0-9]{1,15}))");
 
-    inline bool isDouble(const char* value)
+    inline bool isDouble(std::string value)
     {
         return std::regex_match(value, regDouble);
     }
@@ -75,7 +76,7 @@ namespace jet { namespace Valid {
                                     ([@])
                                     ([\d[:alpha:]_\.])*)");  
         
-    inline bool isEmail(const char* value)
+    inline bool isEmail(std::string value)
     {
         return std::regex_match(value, regEmail);
     }
@@ -91,7 +92,7 @@ namespace jet { namespace Valid {
     constexpr std::regex regexPhone(R"(([+][0-9]{1,3}[ ])?
                                     ([0-9]{7,12}))");
 
-    inline bool isPhone(const char* value)
+    inline bool isPhone(std::string value)
     {
         return std::regex_match(value, regPhone);
     }
@@ -108,7 +109,7 @@ namespace jet { namespace Valid {
                                    (([:]([0-5][0-9]))?)
                                    (([:]([0-9]{3}))?))"); 
 
-    inline bool isTime(const char* value)
+    inline bool isTime(std::string value)
     {
         return std::regex_match(value, regTime);
     }
@@ -126,7 +127,7 @@ namespace jet { namespace Valid {
                                    ((([1][9])|([2][0]))?)
                                    ([0-9]{2})$)"); 
     
-    inline bool isDate(const char* value)
+    inline bool isDate(std::string value)
     {
         return std::regex_match(value, regDate);
     }

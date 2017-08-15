@@ -12,7 +12,7 @@
 
 namespace jet { namespace Convert {
 
-    std::unordered_map<uint, char> hexmap = {
+    std::unordered_map<size_t, char> hexmap = {
         {0x0, '0'},
         {0x1, '1'},
         {0x2, '2'},
@@ -30,15 +30,16 @@ namespace jet { namespace Convert {
         {0xE, 'E'},
         {0xF, 'F'}
     };
+
     //
     // @function bin()
     //
-    inline std::string bin(uint num)
+    inline std::string bin(size_t num)
     {
         std::string outstring{};
 
         while(num) {
-            uint leastSignificantBit = num & 1;
+            size_t leastSignificantBit = num & 1;
             outstring = std::to_string(leastSignificantBit) + outstring;
             num = num >> 1;
         }
@@ -49,12 +50,12 @@ namespace jet { namespace Convert {
     //
     // function hex()
     //
-    inline std::string hex(uint num)
+    inline std::string hex(size_t num)
     {
         std::string outstring{};
         while(num) {
 
-            uint leastSignificantHex = num & 0xf;
+            size_t leastSignificantHex = num & 0xf;
             outstring = hexmap[leastSignificantHex] + outstring;
             num = num >> 4;
         }

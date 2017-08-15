@@ -4,11 +4,8 @@
 // @brief Read keyboard
 #pragma once
 
-namespace jet
-{ 
-    namespace Keyboard 
-    {   
-        inline char ReadChar() {}
-        inline void ReadLine(char* buffer, size_t size) {}
-    }
-}
+namespace jet { namespace Keyboard {
+
+    inline char readChar() {}
+    inline void readLine(char* buffer, size_t size) {}
+}}

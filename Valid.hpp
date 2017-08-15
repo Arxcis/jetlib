@@ -5,6 +5,7 @@
 //
 
 #pragma once
+#include <regex>
 
 // @urldoc - tool for creating/validating regex - www.rubular.com
 
@@ -13,9 +14,9 @@ namespace jet { namespace Valid {
     //
     // @brief - regexName validates if only characters
     //
-    const std::regex regexName(R"([#[:alpha:] \.]+)");
+    constexpr std::regex regexName(R"([#[:alpha:] \.]+)");
     
-    inline bool isName(const std::string& value)
+    inline bool isName(const char* value)
     { 
         return std::regex_match(value, regName);
     }
@@ -26,9 +27,9 @@ namespace jet { namespace Valid {
     //      2. All uppercase
     //      3. A-Z
     //
-    const std::regex regexChar3(R"([A-Z]{3})");
+    constexpr std::regex regexChar3(R"([A-Z]{3})");
 
-    inline bool isChar3(const std::string& value)
+    inline bool isChar3(const char* value)
     {
         return std::regex_match(value, regChar3);
     }
@@ -37,9 +38,9 @@ namespace jet { namespace Valid {
     // @brief - regexInt validates to true if:
     //      1. A string consisting only of numeric-characters 0-9
     //
-    const std::regex regexInt(R"(([-]?)([0-9])+)");
+    constexpr std::regex regexInt(R"(([-]?)([0-9])+)");
     
-    inline bool isInt(const std::string& value)
+    inline bool isInt(const char* value)
     {
         return std::regex_match(value, regInt);
     }
@@ -49,14 +50,14 @@ namespace jet { namespace Valid {
     //     1. 0-15 numberic characters,
     //     2. followed by a period, 
     //     3. followd by 1-15 numeric characters.
+    // @robustness - could overflow floating point, @broken per 06.04.17
     //
-    const std::regex regexDouble(R"(([\s]*)
+    constexpr std::regex regexDouble(R"(([\s]*)
                                      ([+-]?)
                                      ([0-9]{0,15})
                                      ([\.]?)([0-9]{1,15}))");
-                        // @robustness - could overflow floating point, @broken per 06.04.17
 
-    inline bool isDouble(const std::string& value)
+    inline bool isDouble(const char* value)
     {
         return std::regex_match(value, regDouble);
     }
@@ -68,13 +69,13 @@ namespace jet { namespace Valid {
     //     3. Minimum of 3 aplha-numeric character or .   ex. stud.ntnu
     //     4. Mandatory . 
     //     5. Betwenn 2-6 lowercase alpha-letters.    ex. com or no
+    // @robustness - pseudo email address.
     //
-    const std::regex regexEmail(R"((([\d[:alpha:]_\.])*)
+    constexpr std::regex regexEmail(R"((([\d[:alpha:]_\.])*)
                                     ([@])
                                     ([\d[:alpha:]_\.])*)");  
-                                // @robustness - pseudo email address.
         
-    inline bool isEmail(const std::string& value)
+    inline bool isEmail(const char* value)
     {
         return std::regex_match(value, regEmail);
     }
@@ -87,10 +88,10 @@ namespace jet { namespace Valid {
     //     3. Mandatory space
     //     4. 8 numerics in one of these patterns xxx xx xxx, or xx xx xx xx or xxxxxxxx
     //
-    const std::regex regexPhone(R"(([+][0-9]{1,3}[ ])?
+    constexpr std::regex regexPhone(R"(([+][0-9]{1,3}[ ])?
                                     ([0-9]{7,12}))");
 
-    inline bool isPhone(const std::string& value)
+    inline bool isPhone(const char* value)
     {
         return std::regex_match(value, regPhone);
     }
@@ -98,34 +99,34 @@ namespace jet { namespace Valid {
     //
     // @brief - regexTime @todo write something here about how the time 
     //           we are trying to match looks like. - JSolsvik 15.08.17
+    // @robustness, demands 00:00:00:999 for milliseconds
     //
-    const std::regex regexTime(R"(([\s]*)
+    constexpr std::regex regexTime(R"(([\s]*)
                                    (([0-1][0-9])|([2][0-4]))
                                    ([:])
                                    ([0-5][0-9])
                                    (([:]([0-5][0-9]))?)
                                    (([:]([0-9]{3}))?))"); 
-                        // @robustness, demands 00:00:00:999 for milliseconds
 
-    inline bool isTime(const std::string& value)
+    inline bool isTime(const char* value)
     {
         return std::regex_match(value, regTime);
     }
 
     //
     // @brief - regexDate @todo write something here about how the date 
-    //           we are trying to match looks like. - JSolsvik 15.08.17
+    //           we are trying to match looks like. - JSolsvik 15.08.17 
+    // @robustness - Does not account for varying month-length and year-length
     //
-    const std::regex regexDate(R"(([\s]*)
+    constexpr std::regex regexDate(R"(([\s]*)
                                    (([0][1-9])|([1-2][0-9])|([3][0-1]))
                                    ([\.])
                                    ([0][1-9]|[1][0-2])
                                    ([\.])
                                    ((([1][9])|([2][0]))?)
                                    ([0-9]{2})$)"); 
-                        // @robustness - Does not account for varying month-length and year-length
     
-    inline bool isDate(const std::string& value)
+    inline bool isDate(const char* value)
     {
         return std::regex_match(value, regDate);
     }
